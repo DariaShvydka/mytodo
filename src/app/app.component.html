@@ -1,64 +1,65 @@
 <div class="wrapper">
 
-    <mat-card>
-      <mat-toolbar color="primary">
-        <span>All Tasks</span>
-        <span class="emoji">🥵</span>
-        <button mat-fab class="fab-add" (click)="todoDialog()">
-          <i class="material-icons">add</i>
-        </button>
-      </mat-toolbar>
-      <mat-card-content>
-        <mat-list>
-          <form>
-            <mat-list-item draggable *ngFor="let todo of todoGeneral; let index=index" [dragScope]="'g'" [dragData]="todo">
-              <div class="mat-list-item__wrapper">
-                <mat-checkbox color="primary" type="checkbox" (change)="this.completeChange.emit($event)">
-                  <span>{{todo.title}}</span>
-                </mat-checkbox>
+  <mat-card>
+    <mat-toolbar color="primary">
+      <span>All Tasks</span>
+      <span class="emoji">🥵</span>
+      <button mat-fab class="fab-add" (click)="todoDialog()">
+        <i class="material-icons">add</i>
+      </button>
+    </mat-toolbar>
+    <mat-card-content>
+      <mat-list>
+        <form>
+          <mat-list-item draggable *ngFor="let todo of todoGeneral; let index=index" [dragScope]="'g'" [dragData]="todo">
+            <div class="mat-list-item__wrapper">
+              <mat-checkbox color="primary" type="checkbox" (change)="this.completeChange.emit($event)">
+                <span>{{todo.title}}</span>
+              </mat-checkbox>
+              <mat-chip-list>
+                <mat-chip color="warn" selected="true" (click)="remove(index)">
+                  <i class="material-icons">delete_forever</i>
+                </mat-chip>
+                <mat-chip (click)="todoDialog(todo)" color="warn" selected="true" [disabled]="todo.completed">
+                  <i class="material-icons">mode_edit</i>
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </mat-list-item>
+        </form>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
 
-                <mat-chip-list>
-                  <mat-chip color="warn" selected="true" (click)="remove(index)">
-                    <i class="material-icons">delete_forever</i>
-                  </mat-chip>
-                  <mat-chip (click)="todoDialog(todo)" color="warn" selected="true" [disabled]="todo.completed">
-                    <i class="material-icons">mode_edit</i>
-                  </mat-chip>
-                </mat-chip-list>
-              </div>
-            </mat-list-item>
-          </form>
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card droppable [dropScope]="['g', isDropAllowedLessThan]" [dragOverClass]="'drag-target-border'" (onDrop)="onDrop($event)">
-      <mat-toolbar color="accent">
-       <span>For Today</span>
-       <span class="emoji">😈</span>
-      </mat-toolbar>
-      <mat-card-content>
-        <mat-list>
-          <form>
-            <mat-list-item *ngFor="let todo of todoToday; let index=index">
+  <mat-card droppable [dropScope]="['g', isDropAllowedLessThan]" [dragOverClass]="'drag-target-border'" (onDrop)="onDrop($event)">
+    <mat-toolbar color="accent">
+      <span>For Today</span>
+      <span class="emoji">😈</span>
+    </mat-toolbar>
+    <mat-card-content>
+      <mat-list>
+        <form>
+          <mat-list-item *ngFor="let todo of todoToday; let index=index">
+            <div class="mat-list-item__wrapper">
               <mat-checkbox color="primary" type="checkbox" [name]="'item'+index" [(ngModel)]="todo.completed">
                 <span [class.completed]="todo.completed">{{todo.title}}</span>
               </mat-checkbox>
-              <div>
-                <button mat-mini-fab (click)="remove(index)" color="primary">
+              <mat-chip-list>
+                <mat-chip color="warn" selected="true" (click)="remove(index)">
                   <i class="material-icons">delete_forever</i>
-                </button>
-                <button mat-mini-fab (click)="todoDialog(todo)" color="primary" [disabled]="todo.completed">
+                </mat-chip>
+                <mat-chip (click)="todoDialog(todo)" color="warn" selected="true" [disabled]="todo.completed">
                   <i class="material-icons">mode_edit</i>
-                </button>
-              </div>
-            </mat-list-item>
-          </form>
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </mat-list-item>
+        </form>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
 
-  </div>
+</div>
 
 
 <app-dialog [title]="'New Task'" [template]="'Enter Task:'" [placeholder]="'What do you need to do?'" [okText]="okButtonText"
